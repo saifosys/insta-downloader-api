@@ -12,9 +12,13 @@ app.get('/download', async (req, res) => {
 
     try {
         const browser = await puppeteer.launch({
-            headless: true,
-            args: ["--no-sandbox", "--disable-setuid-sandbox"]
-        });
+    headless: true,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
+    args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox"
+    ]
+});
 
         const page = await browser.newPage();
 
