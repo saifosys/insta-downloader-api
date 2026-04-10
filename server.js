@@ -1,24 +1,24 @@
 const express = require('express');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 
 const app = express();
 
 app.get('/download', async (req, res) => {
     const url = req.query.url;
 
-    if (!url) {
-        return res.json({ error: "URL required" });
-    }
+    if (!url) return res.json({ error: "URL required" });
 
     try {
+
         const browser = await puppeteer.launch({
-    headless: true,
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
-    args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox"
-    ]
-});
+            headless: true,
+            executablePath: "/usr/bin/chromium-browser", // ✅ important
+            args: [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage"
+            ]
+        });
 
         const page = await browser.newPage();
 
